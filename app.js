@@ -18,7 +18,7 @@ refs.startBtn.addEventListener('click', () => {
   })
 
 refs.stopBtn.addEventListener('click', () => {
-timer.stop()
+  timer.stop()
 })
 
 const timer = {
@@ -29,11 +29,12 @@ const timer = {
     if (this.isActive) {
       return
     }
-this.isActive = true
+    this.isActive = true
     this.timerId = setInterval(() => {
-    const promises = colors.map(switchColors)
-    Promise.race(promises).then(({color}) => refs.body.style.backgroundColor = color)
-  }, 1000)
+      const promises = colors.map(switchColors)
+      Promise.race(promises).then(({ color }) => refs.body.style.backgroundColor = color)
+    }, 1000)
+   
   },
 
   stop() {
@@ -48,6 +49,7 @@ function switchColors(color) {
 
     setInterval(() => {
       resolve({ color })
+      
     }, time)
   });
 }
