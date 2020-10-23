@@ -7,32 +7,54 @@ const colors = [
   '#795548',
 ];
 
-const randomIntegerFromInterval = (min, max) => {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-};
-
 const refs = {
     body: document.querySelector('.js-switcher'),
     startBtn: document.querySelector('.js-start'),
     stopBtn: document.querySelector('.js-stop')
 }
 
-
-
 refs.startBtn.addEventListener('click', () => {
-    const promises = colors.map(color => color)
-    Promise.race(promises).then(({color}) => console.log(color))
+  timer.start()
+  })
+
+refs.stopBtn.addEventListener('click', () => {
+timer.stop()
 })
 
+const timer = {
+  timerId: null,
+  isActive: false,
+  
+  start() {
+    if (this.isActive) {
+      return
+    }
+this.isActive = true
+    this.timerId = setInterval(() => {
+    const promises = colors.map(switchColors)
+    Promise.race(promises).then(({color}) => refs.body.style.backgroundColor = color)
+  }, 1000)
+  },
 
-function switchColors (color) {
-    return new Promise((resolve) => {
-        const time = randomIntegerFromInterval(500, 1000)
-
-        setTimeout(() => {
-            resolve({color, time})
-}, time)
-   })
+  stop() {
+    this.isActive = false
+    clearInterval(this.timerId)
+  }
 }
 
-switchColors('Mango')
+function switchColors(color) {
+  return new Promise((resolve) => {
+   const time = randomIntegerFromInterval(500, 1000) 
+
+    setInterval(() => {
+      resolve({ color })
+    }, time)
+  });
+}
+
+const randomIntegerFromInterval = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
+
+
