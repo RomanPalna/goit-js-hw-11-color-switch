@@ -25,10 +25,13 @@ const timer = {
   timerId: null,
   isActive: false,
   
+  
   start() {
     if (this.isActive) {
       return
     }
+    refs.startBtn.setAttribute('disabled', 'disabled')
+    refs.stopBtn.removeAttribute('disabled')
     this.isActive = true
     this.timerId = setInterval(() => {
       const promises = colors.map(switchColors)
@@ -40,6 +43,8 @@ const timer = {
   stop() {
     this.isActive = false
     clearInterval(this.timerId)
+    refs.startBtn.removeAttribute('disabled')
+    refs.stopBtn.setAttribute('disabled', 'disabled')
   }
 }
 
